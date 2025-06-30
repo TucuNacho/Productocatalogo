@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router";
 import Administrador from "./components/pages/Administrador";
 import DetalleProducto from "./components/pages/DetalleProducto";
 import Error404 from "./components/pages/Error404";
@@ -10,15 +11,21 @@ import Menu from "./components/shared/Menu";
 function App() {
   return (
     <>
+    <BrowserRouter>
       <Menu></Menu>
       <main>
-        {/* <Error404></Error404> */}
-        {/* <Inicio></Inicio> */}
-        {/* <Administrador></Administrador> */}
-        {/* <DetalleProducto></DetalleProducto> */}
-        <FormularioProducto></FormularioProducto>
+        <Routes>
+          <Route path="/" element={<Inicio></Inicio>} ></Route>
+          <Route path="/detalle-producto" element={<DetalleProducto></DetalleProducto>} ></Route>
+          <Route path="/administrador" element={<Administrador></Administrador>} ></Route>
+          <Route path="/administrador-crear" element={<FormularioProducto></FormularioProducto>} ></Route>
+          <Route path="/administrador-editar" element={<FormularioProducto></FormularioProducto>} ></Route>
+          <Route path="*" element={<Error404></Error404>} ></Route>
+        </Routes>
       </main>
       <Footer></Footer>
+    </BrowserRouter>
+
     </>
   );
 }
