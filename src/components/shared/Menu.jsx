@@ -19,7 +19,7 @@ const Menu = () => {
           <Nav className="ms-auto">
             <NavLink className="nav-link" to="/">Inicio</NavLink>
             <NavLink className="nav-link" to={"administrador"}>Administrador</NavLink>
-            <NavLink className="nav-link" to={"*"} >
+            <NavLink className="nav-link" to={"Login"} >
               Login
             </NavLink>
           </Nav>
