@@ -8,8 +8,12 @@ import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
+import { useState } from "react";
 
 function App() {
+  const usuarioLogueado= sessionStorage.getItem("userKey") || false;
+
+  const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
   return (
     <>
     <BrowserRouter>
@@ -18,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Inicio></Inicio>} ></Route>
           <Route path="/detalle-producto" element={<DetalleProducto></DetalleProducto>} ></Route>
-          <Route path="/Login" element={<Login></Login>}></Route>
+          <Route path="/Login" element={<Login user={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<Administrador></Administrador>} ></Route>
           <Route path="/administrador-crear" element={<FormularioProducto></FormularioProducto>} ></Route>
           <Route path="/administrador-editar" element={<FormularioProducto></FormularioProducto>} ></Route>
