@@ -8,13 +8,17 @@ import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
-
+  const  productosLocalStorage= JSON.parse(localStorage.getItem("productos")) || []
+  const [productos, setProductos] = useState(productosLocalStorage);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
+  useEffect(()=>{
+    localStorage.setItem("productos", JSON.stringify(productos))
+  }, [productos])
   return (
     <>
       <BrowserRouter>
@@ -37,7 +41,7 @@ function App() {
               path="/administrador"
               element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}
             >
-              <Route index element={<Administrador></Administrador>}></Route>
+              <Route index element={<Administrador productos={productos} setProductos={setProductos}></Administrador>}></Route>
 
               <Route
                 path="crear"
