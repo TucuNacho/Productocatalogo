@@ -25,7 +25,7 @@ function App() {
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio />}></Route>
+            <Route path="/" element={<Inicio productos={productos}/>}></Route>
 
             <Route
               path="/detalle"
