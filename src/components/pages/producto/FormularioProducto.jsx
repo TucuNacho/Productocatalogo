@@ -1,25 +1,36 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from 'uuid';
+import Swal from "sweetalert2";
 
-uuidv4();
-const FormularioProducto = () => {
-    const {
+const FormularioProducto = ({ agregarProducto }) => {
+  const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (producto) => {
     console.log(producto);
+    //crear el producto nuevo
+    if (agregarProducto(producto)) {
+      Swal.fire({
+        title: "Producto creado!",
 
+        text:  `El producto ${producto.nombreProducto} fue creado correctamente!`,
+
+        icon: "success",
+      });
+      //resetear el formulario
+      reset();
+    }
   };
 
   return (
     <section className="container mainSection">
       <h1 className="display-4 mt-5">Nuevo producto</h1>
       <hr />
-     <Form className="my-4" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="my-4" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3" controlId="formNombreProdcuto">
           <Form.Label>Producto*</Form.Label>
           <Form.Control
