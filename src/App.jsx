@@ -10,22 +10,31 @@ import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
   const  productosLocalStorage= JSON.parse(localStorage.getItem("productos")) || []
   const [productos, setProductos] = useState(productosLocalStorage);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
+
   useEffect(()=>{
     localStorage.setItem("productos", JSON.stringify(productos))
   }, [productos])
+  const crearProducto=(productoNuevo)=>{
+    //agregar un id unico al producto nuevo
+    productoNuevo.id= uuidv4()
+    //agregar el producto al state de productos
+    setProductos([...productos,productoNuevo])
+    return true
+  }
   return (
     <>
       <BrowserRouter>
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio />}></Route>
+            <Route path="/" element={<Inicio productos={productos}/>}></Route>
 
             <Route
               path="/detalle"
@@ -45,7 +54,7 @@ function App() {
 
               <Route
                 path="crear"
-                element={<FormularioProducto></FormularioProducto>}
+                element={<FormularioProducto agregarProducto={crearProducto}></FormularioProducto>}
               ></Route>
 
               <Route
