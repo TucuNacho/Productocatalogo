@@ -1,6 +1,52 @@
 import { Button } from "react-bootstrap";
+import Swal from "sweetalert2";
 
-const ItemProducto = ({ producto, fila }) => {
+const ItemProducto = ({ producto, fila, borrar }) => {
+  const eliminarProducto = () => {
+    Swal.fire({
+      title: "Eliminar producto?",
+
+      text: "No podras revertir esta accion!",
+
+      icon: "warning",
+
+      showCancelButton: true,
+
+      confirmButtonColor: "#146c43",
+
+      cancelButtonColor: "#d33",
+
+      confirmButtonText: "Si, borrar producto !",
+      cancelButtonText: "No, salir !",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Producto eliminado!",
+
+          text: `El producto ${producto.nombreProducto} ha sido eliminado.`,
+
+          icon: "success",
+        });
+      }
+      if (borrar(producto.id)) {
+        Swal.fire({
+          title: "Producto eliminado",
+
+          text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
+
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Ocurrio un error",
+
+          text: `El producto ${producto.nombreProducto} no pudo ser eliminado.`,
+
+          icon: "error",
+        });
+      }
+    });
+  };
   return (
     <tr>
       <td className="text-center">{fila}</td>
@@ -24,7 +70,7 @@ const ItemProducto = ({ producto, fila }) => {
           <i className="bi bi-pencil-square"></i>
         </Button>
 
-        <Button variant="danger">
+        <Button variant="danger" onClick={eliminarProducto}>
           <i className="bi bi-trash"></i>
         </Button>
       </td>

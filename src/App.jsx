@@ -11,6 +11,7 @@ import Menu from "./components/shared/Menu";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 import { v4 as uuidv4 } from "uuid";
+import Swal from "sweetalert2";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
@@ -27,6 +28,12 @@ function App() {
     //agregar el producto al state de productos
     setProductos([...productos,productoNuevo])
     return true
+  }
+
+  const borrarProducto = (idProducto)=>{
+    const productosFiltrados = productos.filter((itemProducto)=> itemProducto.id !== idProducto)
+    setProductos(productosFiltrados);
+    return true;
   }
   return (
     <>
@@ -50,7 +57,7 @@ function App() {
               path="/administrador"
               element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}
             >
-              <Route index element={<Administrador productos={productos} setProductos={setProductos}></Administrador>}></Route>
+              <Route index element={<Administrador productos={productos} setProductos={setProductos} borrar={borrarProducto}></Administrador>}></Route>
 
               <Route
                 path="crear"

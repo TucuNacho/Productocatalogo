@@ -2,7 +2,7 @@ import { Button, Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
 import { productosData } from "../../data/productoPrueba";
 import { Link } from "react-router";
-const Administrador = ({ productos, setProductos }) => {
+const Administrador = ({ productos, setProductos, borrar }) => {
   const cargarProductos = () => {
     setProductos(productosData);
   };
@@ -40,6 +40,7 @@ const Administrador = ({ productos, setProductos }) => {
               key={producto.id}
               producto={producto}
               fila={indice + 1}
+              borrar={borrar}
             ></ItemProducto>
           ))}
         </tbody>
