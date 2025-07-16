@@ -1,15 +1,30 @@
+import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router";
 import Swal from "sweetalert2";
 
-const FormularioProducto = ({ agregarProducto }) => {
+const FormularioProducto = ({ agregarProducto, titulo, buscarProducto }) => {
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
-
+     const {id}= useParams()
+     useEffect(()=>{
+       if(titulo=== "Editar producto"){
+         const productoBuscado = buscarProducto(id);
+        setValue("nombreProducto", productoBuscado.nombreProducto);
+        setValue("precio", productoBuscado.precio);
+        setValue("imagen", productoBuscado.imagen);
+        setValue("categoria", productoBuscado.categoria);
+        setValue("descripcion_breve", productoBuscado.descripcion_breve);
+        setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+       }
+     }, []);
+  console.log(id);
   const onSubmit = (producto) => {
     console.log(producto);
     //crear el producto nuevo
@@ -28,7 +43,7 @@ const FormularioProducto = ({ agregarProducto }) => {
 
   return (
     <section className="container mainSection">
-      <h1 className="display-4 mt-5">Nuevo producto</h1>
+      <h1 className="display-4 mt-5">{titulo}</h1>
       <hr />
       <Form className="my-4" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3" controlId="formNombreProdcuto">
@@ -107,8 +122,8 @@ const FormularioProducto = ({ agregarProducto }) => {
             <option value="">Seleccione una opcion</option>
             <option value="Infusiones">Infusiones</option>
             <option value="Batidos">Batidos</option>
-            <option value="dulce">Dulce</option>
-            <option value="salado">Salado</option>
+            <option value="Dulce">Dulce</option>
+            <option value="Salado">Salado</option>
           </Form.Select>
           <Form.Text className="text-danger">
             {errors.categoria?.message}
