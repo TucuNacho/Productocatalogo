@@ -46,6 +46,21 @@ function App() {
 
     return productoBuscado;
   };
+  const editarProducto = (idProducto, productoActualizado) => {
+    //lógica para editar un producto
+    const productosEditado = productos.map((itemProducto) => {
+      if (itemProducto.id === idProducto) {
+        return {
+          ...itemProducto,
+          ...productoActualizado
+        };
+      }else {
+        return itemProducto;
+      }
+    });
+    setProductos(productosEditado)
+    return true;
+  }
   return (
     <>
       <BrowserRouter>
@@ -95,6 +110,7 @@ function App() {
                   <FormularioProducto
                     buscarProducto={buscarProducto}
                     titulo={"Editar producto"}
+                    editarProducto={editarProducto}
                   ></FormularioProducto>
                 }
               ></Route>

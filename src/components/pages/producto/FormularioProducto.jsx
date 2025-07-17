@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import Swal from "sweetalert2";
 
-const FormularioProducto = ({ agregarProducto, titulo, buscarProducto }) => {
+const FormularioProducto = ({
+  agregarProducto,
+  titulo,
+  buscarProducto,
+  editarProducto,
+}) => {
   const {
     register,
     handleSubmit,
@@ -12,32 +17,45 @@ const FormularioProducto = ({ agregarProducto, titulo, buscarProducto }) => {
     setValue,
     formState: { errors },
   } = useForm();
-     const {id}= useParams()
-     useEffect(()=>{
-       if(titulo=== "Editar producto"){
-         const productoBuscado = buscarProducto(id);
-        setValue("nombreProducto", productoBuscado.nombreProducto);
-        setValue("precio", productoBuscado.precio);
-        setValue("imagen", productoBuscado.imagen);
-        setValue("categoria", productoBuscado.categoria);
-        setValue("descripcion_breve", productoBuscado.descripcion_breve);
-        setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
-       }
-     }, []);
+  const { id } = useParams();
+  useEffect(() => {
+    if (titulo === "Editar producto") {
+      const productoBuscado = buscarProducto(id);
+      setValue("nombreProducto", productoBuscado.nombreProducto);
+      setValue("precio", productoBuscado.precio);
+      setValue("imagen", productoBuscado.imagen);
+      setValue("categoria", productoBuscado.categoria);
+      setValue("descripcion_breve", productoBuscado.descripcion_breve);
+      setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+    }
+  }, []);
   console.log(id);
   const onSubmit = (producto) => {
-    console.log(producto);
-    //crear el producto nuevo
-    if (agregarProducto(producto)) {
-      Swal.fire({
-        title: "Producto creado!",
+    if (titulo === "Crear producto") {
+      console.log(producto);
+      //crear el producto nuevo
+      if (agregarProducto(producto)) {
+        Swal.fire({
+          title: "Producto creado!",
 
-        text:  `El producto ${producto.nombreProducto} fue creado correctamente!`,
+          text: `El producto ${producto.nombreProducto} fue creado correctamente!`,
 
-        icon: "success",
-      });
-      //resetear el formulario
-      reset();
+          icon: "success",
+        });
+        //resetear el formulario
+        reset();
+      }
+    } else {
+      //tomar los datos del formulario "producto"
+      if (editarProducto(id, producto)) {
+        Swal.fire({
+          title: "Producto editado!",
+
+          text: `El producto ${producto.nombreProducto} fue editado correctamente!`,
+
+          icon: "success",
+        });
+      }
     }
   };
 
@@ -177,7 +195,7 @@ const FormularioProducto = ({ agregarProducto, titulo, buscarProducto }) => {
             {errors.descripcion_amplia?.message}
           </Form.Text>
         </Form.Group>
-        <Button type="submit" variant="success">
+        <Button type="submit" variant="success" >
           Guardar
         </Button>
       </Form>
