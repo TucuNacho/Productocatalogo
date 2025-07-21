@@ -71,7 +71,7 @@ function App() {
 
             <Route
               path="/detalle/:id"
-              element={<DetalleProducto></DetalleProducto>}
+              element={<DetalleProducto buscarProducto={buscarProducto}></DetalleProducto>}
             ></Route>
 
             <Route
