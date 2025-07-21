@@ -1,6 +1,10 @@
 import { Container, Card, Row, Col } from "react-bootstrap";
+import { useParams } from "react-router";
+import { useEffect } from "react";
 
 const DetalleProducto = () => {
+    const {id} = useParams()
+
   return (
     <Container className="my-3 mainSection">
       <Card>
