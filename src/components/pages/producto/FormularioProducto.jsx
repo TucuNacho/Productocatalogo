@@ -1,34 +1,67 @@
+import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router";
 import Swal from "sweetalert2";
 
-const FormularioProducto = ({ agregarProducto }) => {
+const FormularioProducto = ({
+  agregarProducto,
+  titulo,
+  buscarProducto,
+  editarProducto,
+}) => {
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
-
+  const { id } = useParams();
+  useEffect(() => {
+    if (titulo === "Editar producto") {
+      const productoBuscado = buscarProducto(id);
+      setValue("nombreProducto", productoBuscado.nombreProducto);
+      setValue("precio", productoBuscado.precio);
+      setValue("imagen", productoBuscado.imagen);
+      setValue("categoria", productoBuscado.categoria);
+      setValue("descripcion_breve", productoBuscado.descripcion_breve);
+      setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+    }
+  }, []);
+  console.log(id);
   const onSubmit = (producto) => {
-    console.log(producto);
-    //crear el producto nuevo
-    if (agregarProducto(producto)) {
-      Swal.fire({
-        title: "Producto creado!",
+    if (titulo === "Crear producto") {
+      console.log(producto);
+      //crear el producto nuevo
+      if (agregarProducto(producto)) {
+        Swal.fire({
+          title: "Producto creado!",
 
-        text:  `El producto ${producto.nombreProducto} fue creado correctamente!`,
+          text: `El producto ${producto.nombreProducto} fue creado correctamente!`,
 
-        icon: "success",
-      });
-      //resetear el formulario
-      reset();
+          icon: "success",
+        });
+        //resetear el formulario
+        reset();
+      }
+    } else {
+      //tomar los datos del formulario "producto"
+      if (editarProducto(id, producto)) {
+        Swal.fire({
+          title: "Producto editado!",
+
+          text: `El producto ${producto.nombreProducto} fue editado correctamente!`,
+
+          icon: "success",
+        });
+      }
     }
   };
 
   return (
     <section className="container mainSection">
-      <h1 className="display-4 mt-5">Nuevo producto</h1>
+      <h1 className="display-4 mt-5">{titulo}</h1>
       <hr />
       <Form className="my-4" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3" controlId="formNombreProdcuto">
@@ -107,8 +140,8 @@ const FormularioProducto = ({ agregarProducto }) => {
             <option value="">Seleccione una opcion</option>
             <option value="Infusiones">Infusiones</option>
             <option value="Batidos">Batidos</option>
-            <option value="dulce">Dulce</option>
-            <option value="salado">Salado</option>
+            <option value="Dulce">Dulce</option>
+            <option value="Salado">Salado</option>
           </Form.Select>
           <Form.Text className="text-danger">
             {errors.categoria?.message}
@@ -162,7 +195,7 @@ const FormularioProducto = ({ agregarProducto }) => {
             {errors.descripcion_amplia?.message}
           </Form.Text>
         </Form.Group>
-        <Button type="submit" variant="success">
+        <Button type="submit" variant="success" >
           Guardar
         </Button>
       </Form>
