@@ -18,6 +18,7 @@ const DetalleProducto = ({buscarProducto}) => {
             <Card.Img
               variant="top"
               src={producto.imagen}
+              style={{width:300}}
             />
           </Col>
           <Col md={6}>
