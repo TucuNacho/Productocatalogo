@@ -2,7 +2,24 @@ import { Button, Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
 import { productosData } from "../../data/productoPrueba";
 import { Link } from "react-router";
-const Administrador = ({ productos, setProductos, borrar }) => {
+import { useEffect, useState } from "react";
+import { leerProducto } from "../../helpers/queries";
+const Administrador = ({ setProductos, borrar }) => {
+  const [listaProductos, setListaProductos] = useState([]);
+
+  useEffect(() => {
+    obtenerProducto();
+  }, []);
+
+  const obtenerProducto = async () => {
+    const respuesta = await leerProducto();
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      setListaProductos(datos);
+    } else {
+      console.info("Ocurrio un errro al buscar los productos");
+    }
+  };
   const cargarProductos = () => {
     setProductos(productosData);
   };
@@ -35,9 +52,9 @@ const Administrador = ({ productos, setProductos, borrar }) => {
           </tr>
         </thead>
         <tbody>
-          {productos.map((producto, indice) => (
+          {listaProductos.map((producto, indice) => (
             <ItemProducto
-              key={producto.id}
+              key={producto._id}
               producto={producto}
               fila={indice + 1}
               borrar={borrar}
