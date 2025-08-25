@@ -53,15 +53,15 @@ export const editarProducto = async (productoEditado, id)=>{
     }
 }
 
-export const borrarProductoPorId = async (productoBorrado, id)=>{
+export const borrarProductoPorId = async (id)=>{
     try {
-        const respuesta = await fetch(urlproductos,+ `/${id}` ,{
+        console.log(id);
+
+        const respuesta = await fetch(urlproductos + `/${id}` ,{
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(productoBorrado)
         })
+        console.log(respuesta);
+
         return respuesta
     } catch (error) {
         console.error(error)
