@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
-import { borrarProductoPorId } from "../../../helpers/queries";
+import { borrarProductoPorId, leerProducto } from "../../../helpers/queries";
 
-const ItemProducto = ({ producto, fila, borrar }) => {
+const ItemProducto = ({ producto, fila, setlistaProductos }) => {
   const eliminarProducto = () => {
     Swal.fire({
       title: "Eliminar producto?",
@@ -31,6 +31,9 @@ const ItemProducto = ({ producto, fila, borrar }) => {
 
             icon: "success",
           });
+          const respuestaProducto = await leerProducto()
+          const productoActualizado = await respuestaProducto.json()
+          setlistaProductos(productoActualizado)
         } else {
           Swal.fire({
             title: "Ocurrio un error",
