@@ -2,10 +2,14 @@ import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
-import { crearProducto } from "../../../helpers/queries";
+import {
+  crearProducto,
+  obtenerProductoPorId,
+  editarProducto,
+} from "../../../helpers/queries";
 import Swal from "sweetalert2";
 
-const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
+const FormularioProducto = ({ titulo }) => {
   const {
     register,
     handleSubmit,
@@ -15,15 +19,21 @@ const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
   } = useForm();
   const { id } = useParams();
   useEffect(() => {
-    if (titulo === "Editar producto") {
-      const productoBuscado = buscarProducto(id);
-      setValue("nombreProducto", productoBuscado.nombreProducto);
-      setValue("precio", productoBuscado.precio);
-      setValue("imagen", productoBuscado.imagen);
-      setValue("categoria", productoBuscado.categoria);
-      setValue("descripcion_breve", productoBuscado.descripcion_breve);
-      setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
-    }
+    const obtenerProducto = async () => {
+      if (titulo === "Editar producto") {
+        const respuesta = await obtenerProductoPorId(id);
+        if (respuesta.status === 200) {
+          const productoBuscado = await respuesta.json();
+          setValue("nombreProducto", productoBuscado.nombreProducto);
+          setValue("precio", productoBuscado.precio);
+          setValue("imagen", productoBuscado.imagen);
+          setValue("categoria", productoBuscado.categoria);
+          setValue("descripcion_breve", productoBuscado.descripcion_breve);
+          setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+        }
+      }
+    };
+    obtenerProducto();
   }, []);
   console.log(id);
   const onSubmit = async (producto) => {
@@ -44,7 +54,8 @@ const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
       }
     } else {
       //tomar los datos del formulario "producto"
-      if (editarProducto(id, producto)) {
+      const respuesta = await editarProducto(producto, id);
+      if (respuesta.status === 200) {
         Swal.fire({
           title: "Producto editado!",
 

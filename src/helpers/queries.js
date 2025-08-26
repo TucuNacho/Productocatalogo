@@ -39,7 +39,7 @@ export const crearProducto = async (productoNuevo)=>{
 
 export const editarProducto = async (productoEditado, id)=>{
     try {
-        const respuesta = await fetch(urlproductos,+ `/${id}` ,{
+        const respuesta = await fetch(urlproductos + `/${id}` ,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
