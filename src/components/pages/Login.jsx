@@ -1,30 +1,54 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { login } from "../../helpers/queries";
+import Swal from "sweetalert2";
 const Login = ({ user }) => {
   const {
     register,
-
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
   const navegacion = useNavigate();
 
-  const iniciarSesion = (usuario) => {
-    console.log(usuario);
-    if (
-      usuario.email === import.meta.env.VITE_API_MAIL &&
-      usuario.password === import.meta.env.VITE_API_PASS
-    ) {
-      user(true);
-      sessionStorage.setItem("userKey", true);
-      navegacion("/administrador");
+  const iniciarSesion = async (usuario) => {
+    const usuarioNuevo = {mail:usuario.mail, password: usuario.password}
+    const respuesta = await login(usuarioNuevo);
+    if (respuesta.status === 200) {
+      const datosUsuario = await respuesta.json();
+      console.log(datosUsuario);
+      //quiero actualizar el state usuarioAdmin
+      //guardar los datos en el sessionStorage
+      Swal.fire({
+        title: "Inicio de sesion correcto!",
+
+        text: `Bienvenido ${datosUsuario.Username} !`,
+
+        icon: "success",
+      });
     } else {
-      console.error("Credenciales incorrectas");
-      alert("Credenciales incorrectas");
+      Swal.fire({
+        title: "Error al iniciar sesion",
+
+        text: `Credenciales incorrectas`,
+
+        icon: "error",
+      });
     }
+
+    // console.log(usuario);
+    // if (
+    //   usuario.email === import.meta.env.VITE_API_MAIL &&
+    //   usuario.password === import.meta.env.VITE_API_PASS
+    // ) {
+    //   user(true);
+    //   sessionStorage.setItem("userKey", true);
+    //   navegacion("/administrador");
+    // } else {
+    //   console.error("Credenciales incorrectas");
+    //   alert("Credenciales incorrectas");
+    // }
   };
 
   return (

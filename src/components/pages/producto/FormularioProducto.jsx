@@ -18,6 +18,7 @@ const FormularioProducto = ({ titulo }) => {
     formState: { errors },
   } = useForm();
   const { id } = useParams();
+  
   useEffect(() => {
     const obtenerProducto = async () => {
       if (titulo === "Editar producto") {
