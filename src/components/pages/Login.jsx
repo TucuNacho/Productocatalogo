@@ -13,12 +13,13 @@ const Login = ({ user }) => {
   const navegacion = useNavigate();
 
   const iniciarSesion = async (usuario) => {
-    const usuarioNuevo = {mail:usuario.mail, password: usuario.password}
-    const respuesta = await login(usuarioNuevo);
+
+    const respuesta = await login(usuario);
     if (respuesta.status === 200) {
       const datosUsuario = await respuesta.json();
       console.log(datosUsuario);
       //quiero actualizar el state usuarioAdmin
+      user({Username: datosUsuario.Username, token: datosUsuario.token});
       //guardar los datos en el sessionStorage
       Swal.fire({
         title: "Inicio de sesion correcto!",
@@ -27,6 +28,7 @@ const Login = ({ user }) => {
 
         icon: "success",
       });
+      navegacion("/administrador")
     } else {
       Swal.fire({
         title: "Error al iniciar sesion",
@@ -37,18 +39,6 @@ const Login = ({ user }) => {
       });
     }
 
-    // console.log(usuario);
-    // if (
-    //   usuario.email === import.meta.env.VITE_API_MAIL &&
-    //   usuario.password === import.meta.env.VITE_API_PASS
-    // ) {
-    //   user(true);
-    //   sessionStorage.setItem("userKey", true);
-    //   navegacion("/administrador");
-    // } else {
-    //   console.error("Credenciales incorrectas");
-    //   alert("Credenciales incorrectas");
-    // }
   };
 
   return (

@@ -4,14 +4,12 @@ import DetalleProducto from "./components/pages/DetalleProducto";
 import Error404 from "./components/pages/Error404";
 import Inicio from "./components/pages/Inicio";
 import Login from "./components/pages/Login";
-import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 import { v4 as uuidv4 } from "uuid";
-import Swal from "sweetalert2";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || {};
@@ -23,6 +21,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("productos", JSON.stringify(productos));
   }, [productos]);
+
+  useEffect(() => {
+    sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
+  }, [setUsuarioAdmin]);
   const crearProducto = (productoNuevo) => {
     //agregar un id unico al producto nuevo
     productoNuevo.id = uuidv4();
@@ -52,15 +54,15 @@ function App() {
       if (itemProducto.id === idProducto) {
         return {
           ...itemProducto,
-          ...productoActualizado
+          ...productoActualizado,
         };
-      }else {
+      } else {
         return itemProducto;
       }
     });
-    setProductos(productosEditado)
+    setProductos(productosEditado);
     return true;
-  }
+  };
   return (
     <>
       <BrowserRouter>
@@ -71,7 +73,11 @@ function App() {
 
             <Route
               path="/detalle/:id"
-              element={<DetalleProducto buscarProducto={buscarProducto}></DetalleProducto>}
+              element={
+                <DetalleProducto
+                  buscarProducto={buscarProducto}
+                ></DetalleProducto>
+              }
             ></Route>
 
             <Route
