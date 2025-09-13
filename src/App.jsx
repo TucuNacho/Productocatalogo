@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
-  }, [setUsuarioAdmin]);
+  }, [usuarioAdmin]);
   const crearProducto = (productoNuevo) => {
     //agregar un id unico al producto nuevo
     productoNuevo.id = uuidv4();
