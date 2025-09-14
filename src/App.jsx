@@ -12,7 +12,7 @@ import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const usuarioLogueado = sessionStorage.getItem("userKey") || {};
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem("userKey")) || {};
   const productosLocalStorage =
     JSON.parse(localStorage.getItem("productos")) || [];
   const [productos, setProductos] = useState(productosLocalStorage);
