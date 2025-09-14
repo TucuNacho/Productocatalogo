@@ -2,7 +2,7 @@ import { Container, Row, Form } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
 import { useState, useEffect } from "react";
 import { leerProducto } from "../../helpers/queries";
-
+import imginiciocafe from "../../assets/imginiciocafe.webp"
 const Inicio = () => {
   const [busqueda, setBusqueda] = useState("");
   const [productos, setProductos] = useState([])
@@ -29,11 +29,11 @@ const Inicio = () => {
   );
   return (
     <section className="mainSection">
-      {/* <img
+      <img
         className="banner"
-        src="https://images.pexels.com/photos/13591748/pexels-photo-13591748.jpeg"
+        src={imginiciocafe}
         alt="fondo cafe"
-      /> */}
+      />
       <Container className="mt-5">
         <h1 className="display-4">Nuestros Productos</h1>
         <Form.Group>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import {
   crearProducto,
   obtenerProductoPorId,
@@ -18,7 +18,8 @@ const FormularioProducto = ({ titulo }) => {
     formState: { errors },
   } = useForm();
   const { id } = useParams();
-  
+  const navegacion = useNavigate();
+
   useEffect(() => {
     const obtenerProducto = async () => {
       if (titulo === "Editar producto") {
@@ -48,10 +49,12 @@ const FormularioProducto = ({ titulo }) => {
           text: `El producto ${producto.nombreProducto} fue creado correctamente!`,
 
           icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            reset();
+            navegacion("/administrador");
+          }
         });
-        //resetear el formulario
-        reset();
-        //agregar un else con un mensaje de error si queremos
       }
     } else {
       //tomar los datos del formulario "producto"
