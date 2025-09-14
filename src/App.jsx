@@ -25,44 +25,6 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
   }, [usuarioAdmin]);
-  const crearProducto = (productoNuevo) => {
-    //agregar un id unico al producto nuevo
-    productoNuevo.id = uuidv4();
-    //agregar el producto al state de productos
-    setProductos([...productos, productoNuevo]);
-    return true;
-  };
-
-  const borrarProducto = (idProducto) => {
-    const productosFiltrados = productos.filter(
-      (itemProducto) => itemProducto.id !== idProducto
-    );
-    setProductos(productosFiltrados);
-    return true;
-  };
-
-  const buscarProducto = (idProducto) => {
-    const productoBuscado = productos.find(
-      (itemProducto) => itemProducto.id === idProducto
-    );
-
-    return productoBuscado;
-  };
-  const editarProducto = (idProducto, productoActualizado) => {
-    //lógica para editar un producto
-    const productosEditado = productos.map((itemProducto) => {
-      if (itemProducto.id === idProducto) {
-        return {
-          ...itemProducto,
-          ...productoActualizado,
-        };
-      } else {
-        return itemProducto;
-      }
-    });
-    setProductos(productosEditado);
-    return true;
-  };
   return (
     <>
       <BrowserRouter>
@@ -75,7 +37,6 @@ function App() {
               path="/detalle/:id"
               element={
                 <DetalleProducto
-                  buscarProducto={buscarProducto}
                 ></DetalleProducto>
               }
             ></Route>
@@ -95,7 +56,6 @@ function App() {
                   <Administrador
                     productos={productos}
                     setProductos={setProductos}
-                    borrar={borrarProducto}
                   ></Administrador>
                 }
               ></Route>
@@ -104,7 +64,6 @@ function App() {
                 path="crear"
                 element={
                   <FormularioProducto
-                    agregarProducto={crearProducto}
                     titulo={"Crear producto"}
                   ></FormularioProducto>
                 }
@@ -114,9 +73,7 @@ function App() {
                 path="editar/:id"
                 element={
                   <FormularioProducto
-                    buscarProducto={buscarProducto}
                     titulo={"Editar producto"}
-                    editarProducto={editarProducto}
                   ></FormularioProducto>
                 }
               ></Route>
