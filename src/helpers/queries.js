@@ -57,16 +57,12 @@ export const editarProducto = async (productoEditado, id) => {
 
 export const borrarProductoPorId = async (id) => {
   try {
-    console.log(id);
-
     const respuesta = await fetch(urlproductos + `/${id}`, {
       method: "DELETE",
       headers: {
         "x-token": JSON.parse(sessionStorage.getItem("userKey")).token
       }
     });
-    console.log(respuesta);
-
     return respuesta;
   } catch (error) {
     console.error(error);
@@ -76,8 +72,6 @@ export const borrarProductoPorId = async (id) => {
 
 export const login = async (datosUsuario) => {
   try {
-    console.log(datosUsuario);
-
     const respuesta = await fetch(urlUsuario + "/login", {
       method: "POST",
       headers: {
@@ -85,7 +79,6 @@ export const login = async (datosUsuario) => {
       },
       body: JSON.stringify(datosUsuario),
     });
-    console.log(respuesta);
     return respuesta;
   } catch (error) {
     console.error(error);

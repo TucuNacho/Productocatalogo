@@ -37,7 +37,6 @@ const FormularioProducto = ({ titulo }) => {
     };
     obtenerProducto();
   }, []);
-  console.log(id);
   const onSubmit = async (producto) => {
     if (titulo === "Crear producto") {
       const respuesta = await crearProducto(producto);

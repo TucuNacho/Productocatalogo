@@ -1,6 +1,5 @@
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
-import { productosData } from "../../data/productoPrueba";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { leerProducto } from "../../helpers/queries";
