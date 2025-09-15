@@ -9,19 +9,10 @@ import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
-import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem("userKey")) || {};
-  const productosLocalStorage =
-    JSON.parse(localStorage.getItem("productos")) || [];
-  const [productos, setProductos] = useState(productosLocalStorage);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
-
-  useEffect(() => {
-    localStorage.setItem("productos", JSON.stringify(productos));
-  }, [productos]);
-
   useEffect(() => {
     sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
   }, [usuarioAdmin]);
@@ -31,14 +22,11 @@ function App() {
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio/>}></Route>
+            <Route path="/" element={<Inicio />}></Route>
 
             <Route
               path="/detalle/:id"
-              element={
-                <DetalleProducto
-                ></DetalleProducto>
-              }
+              element={<DetalleProducto></DetalleProducto>}
             ></Route>
 
             <Route
