@@ -27,7 +27,7 @@ export const crearProducto = async (productoNuevo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
       },
       body: JSON.stringify(productoNuevo),
     });
@@ -44,7 +44,7 @@ export const editarProducto = async (productoEditado, id) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
       },
       body: JSON.stringify(productoEditado),
     });
@@ -60,8 +60,8 @@ export const borrarProductoPorId = async (id) => {
     const respuesta = await fetch(urlproductos + `/${id}`, {
       method: "DELETE",
       headers: {
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token
-      }
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
+      },
     });
     return respuesta;
   } catch (error) {
