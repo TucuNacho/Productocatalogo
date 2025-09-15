@@ -42,8 +42,6 @@ function App() {
                 index
                 element={
                   <Administrador
-                    productos={productos}
-                    setProductos={setProductos}
                   ></Administrador>
                 }
               ></Route>

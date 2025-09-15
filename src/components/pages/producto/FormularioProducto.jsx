@@ -54,6 +54,13 @@ const FormularioProducto = ({ titulo }) => {
             navegacion("/administrador");
           }
         });
+      } else {
+        const datosErroneos = await respuesta.json();
+        Swal.fire({
+          title: "Ocurrio un error",
+          text: `El producto ${producto.nombreProducto} no pudo ser creado, ${datosErroneos[0].msg}`,
+          icon: "error",
+        });
       }
     } else {
       //tomar los datos del formulario "producto"
@@ -65,6 +72,14 @@ const FormularioProducto = ({ titulo }) => {
           text: `El producto ${producto.nombreProducto} fue editado correctamente!`,
 
           icon: "success",
+        });
+      } else {
+        const datosErroneos = await respuesta.json();
+        console.log(datosErroneos);
+        Swal.fire({
+          title: "Ocurrio un error",
+          text: `El producto ${producto.nombreProducto} no pudo ser editado, ${datosErroneos[0].msg}`,
+          icon: "error",
         });
       }
     }
